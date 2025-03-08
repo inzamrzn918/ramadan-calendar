@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Islamic Calender</string>
+    <string name="base_api_url">https://api.aladhan.com/v1/</string>
+    <string name="prayer_times">Prayer Times</string>
+    <string name="fajr">Fajr</string>
+    <string name="_05_01">05:01</string>
+    <string name="sunrise">Sunrise</string>
+    <string name="time_value">_ _:_ _</string>
+    <string name="dhuhr">Dhuhr</string>
+    <string name="asr">Asr</string>
+    <string name="isha">Isha</string>
+    <string name="Tarabhi">Tarabhi</string>
+    <string name="loading">Loading…</string>
+    <string name="default_address">Barpeta,Assam, India (23.8103, 90.4125)</string>
+    <string name="today">Today</string>
+</resources>

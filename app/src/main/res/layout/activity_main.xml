@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:id="@+id/main"
+    android:paddingHorizontal="16dp"
+    android:paddingBottom="16dp"
+    android:layout_marginTop="38dp">
+
+    <!-- Header Section -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/header_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/date_gregorian"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/loading"
+                android:textColor="#212121"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/date_hijri"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/loading"
+                android:textColor="#757575"
+                android:textSize="16sp"
+                android:layout_marginTop="4dp"/>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Prayer Times Section -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/prayer_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        app:layout_constraintTop_toBottomOf="@id/header_card"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/prayer_times"
+                android:textColor="#212121"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <!-- Prayer Time Rows -->
+            <LinearLayout
+                style="@style/PrayerTimeRow"
+                android:id="@+id/fajr_row">
+                <TextView
+                    android:text="@string/fajr"
+                    style="@style/PrayerName"/>
+                <TextView
+                    android:id="@+id/fajr_value"
+                    android:text="@string/time_value"
+                    style="@style/PrayerTime"/>
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/PrayerTimeRow"
+                android:id="@+id/sunrise_row">
+                <TextView
+                    android:text="@string/sunrise"
+                    style="@style/PrayerName"/>
+                <TextView
+                    android:id="@+id/sunrise_value"
+                    android:text="@string/time_value"
+                    style="@style/PrayerTime"/>
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/PrayerTimeRow"
+                android:id="@+id/dhuhr_row">
+                <TextView
+                    android:text="@string/dhuhr"
+                    style="@style/PrayerName"/>
+                <TextView
+                    android:id="@+id/dhuhr_value"
+                    android:text="@string/time_value"
+                    style="@style/PrayerTime"/>
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/PrayerTimeRow"
+                android:id="@+id/asr_row">
+                <TextView
+                    android:text="@string/asr"
+                    style="@style/PrayerName"/>
+                <TextView
+                    android:id="@+id/asr_value"
+                    android:text="@string/time_value"
+                    style="@style/PrayerTime"/>
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/PrayerTimeRow"
+                android:id="@+id/maghrib_row">
+                <TextView
+                    android:text="Maghrib"
+                    style="@style/PrayerName"/>
+                <TextView
+                    android:id="@+id/maghrib_value"
+                    android:text="@string/time_value"
+                    style="@style/PrayerTime"/>
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/PrayerTimeRow"
+                android:id="@+id/isha_row">
+                <TextView
+                    android:text="@string/isha"
+                    style="@style/PrayerName"/>
+                <TextView
+                    android:id="@+id/isha_value"
+                    android:text="@string/time_value"
+                    style="@style/PrayerTime"/>
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/carouselViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:clipChildren="false"
+        android:paddingStart="40dp"
+        android:paddingEnd="40dp"
+        android:layout_marginVertical="30dp"
+        android:overScrollMode="never"
+        app:layout_constraintTop_toBottomOf="@id/prayer_card"/>
+    <Button
+        android:id="@+id/resetButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/today"
+        app:layout_constraintTop_toBottomOf="@id/carouselViewPager"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Location Info -->
+    <TextView
+        android:id="@+id/location_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/default_address"
+        android:textColor="#757575"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="16dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
