@@ -36,9 +36,9 @@ public class CaroselAdapter extends RecyclerView.Adapter<CaroselAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CaroselItem item = caroselList.get(position);
-        holder.hijriDate.setText("Hijri Date: " + item.getHijriDate());
-        holder.sehriTime.setText("Sehri: " + item.getSehriTime());
-        holder.iftarTime.setText("Iftar: " + item.getIftarTime());
+        holder.hijriDate.setText(item.getHijriDate());
+        holder.sehriTime.setText(item.getSehriTime());
+        holder.iftarTime.setText(item.getIftarTime());
     }
 
     @Override

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Islamic Calender</string>
+    <string name="app_name">Ramadhan Calender</string>
     <string name="base_api_url">https://api.aladhan.com/v1/</string>
     <string name="prayer_times">Prayer Times</string>
     <string name="fajr">Fajr</string>
@@ -13,4 +13,11 @@
     <string name="loading">Loading…</string>
     <string name="default_address">Barpeta,Assam, India (23.8103, 90.4125)</string>
     <string name="today">Today</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="app_widget_description">This is an app widget description</string>
+    <string name="unity_project_id">3efe1a71-312e-40ea-ae8e-7f0105f5b70e</string>
+    <string name="core_id">1374499756870</string>
+    <string name="android_id">5810137</string>
+    <string name="stats_key">b4c57252149e26c59c37c1e914a6323b682b1f73037e2f822c63d629ef50971b</string>
 </resources>

@@ -9,6 +9,7 @@ material = "1.12.0"
 activity = "1.9.3"
 constraintlayout = "2.2.0"
 playServicesLocation = "21.3.0"
+unityAds = "4.7.0"
 volley = "1.2.1"
 
 [libraries]
@@ -21,6 +22,7 @@ material = { group = "com.google.android.material", name = "material", version.r
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
+unity-ads = { module = "com.unity3d.ads:unity-ads", version.ref = "unityAds" }
 volley = { group = "com.android.volley", name = "volley", version.ref = "volley" }
 
 [plugins]

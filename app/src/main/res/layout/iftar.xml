@@ -1,0 +1,49 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Widget.IslamicCalender.AppWidget.Container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/Theme.IslamicCalender.AppWidgetContainer">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@android:color/white">
+
+        <!-- Hijri Date -->
+        <TextView
+            android:id="@+id/hijri_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sunday"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:gravity="center"/>
+
+        <!-- Sehri Time -->
+        <TextView
+            android:id="@+id/sehri_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sehri: 04:45 AM"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="10dp"
+            android:gravity="center"/>
+
+        <!-- Iftar Time -->
+        <TextView
+            android:id="@+id/iftar_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Iftar: 06:15 PM"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="10dp"
+            android:gravity="center"/>
+    </LinearLayout>
+
+</RelativeLayout>

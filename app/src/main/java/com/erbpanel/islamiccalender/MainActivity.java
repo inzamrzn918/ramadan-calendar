@@ -35,6 +35,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
@@ -45,7 +47,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+import com.unity3d.ads.IUnityAdsInitializationListener;
+import com.unity3d.ads.UnityAds;
+
+public class MainActivity extends AppCompatActivity implements IUnityAdsInitializationListener{
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 22222;
     private FusedLocationProviderClient fusedLocationClient;
@@ -62,6 +67,22 @@ public class MainActivity extends AppCompatActivity {
     private String BASE_URL;
     private double latitude;
     private double longitude;
+    private String UNITY_GAME_ID; // Replace with your Game ID
+    private static final boolean TEST_MODE = true; // Set to false for production
+
+    private static final String[] POSSIBLE_FORMATS = {
+            "yy-MM-dd",    // YY-mm-dd
+            "dd-yy-MM",    // dd-yy-MM
+            "yyyy-MM-dd",  // Full year format
+            "dd-MM-yy",    // dd-MM-yy
+            "MM-dd-yy",    // MM-dd-yy
+            "dd/MM/yy",    // dd/MM/yy
+            "yy/MM/dd"     // yy/MM/dd
+    };
+
+    @SuppressLint("ConstantLocale")
+    private static final SimpleDateFormat OUTPUT_FORMAT =
+            new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +91,11 @@ public class MainActivity extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_main);
 
+        UNITY_GAME_ID = String.valueOf(R.string.android_id);
         BASE_URL = getString(R.string.base_api_url);
 
+        UnityAds.initialize(this, UNITY_GAME_ID, TEST_MODE, this);
+        UnityAds.show(this, "Interstitial_Android");
         caroselItemList = new ArrayList<>();
 
         // Initialize UI elements
@@ -201,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
                     if (location != null) {
                         latitude = location.getLatitude();
                         longitude = location.getLongitude();
-                        Toast.makeText(getApplicationContext(), String.valueOf(LocalDate.now()), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getApplicationContext(), String.valueOf(LocalDate.now()), Toast.LENGTH_SHORT).show();
                         fetchPrayerTimes(latitude, longitude, String.valueOf(LocalDate.now()), true);
                     } else {
                         Toast.makeText(this, "Location Unavailable", Toast.LENGTH_SHORT).show();
@@ -224,9 +248,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fetchPrayerTimes(double latitude, double longitude, String selectedGregorianDate, boolean reset) {
-        String url = BASE_URL + "timings/"+selectedGregorianDate+"?latitude=" + latitude + "&longitude=" + longitude;
-
-        Log.d("ATAG", "fetchPrayerTimes: "+selectedGregorianDate);
+        String url = BASE_URL + "timings/"+convertToDdMmYy(selectedGregorianDate)+"?latitude=" + latitude + "&longitude=" + longitude;
 
         RequestQueue queue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -245,9 +267,12 @@ public class MainActivity extends AppCompatActivity {
                         date_gregorian.setText(date.getString("readable"));
 
                         JSONObject hijri = date.getJSONObject("hijri");
-                        String completeHijriDate = String.format("%s %s %s, %s",
-                                hijri.getString("day"), hijri.getJSONObject("month").getString("ar"),
-                                hijri.getString("year"), hijri.getJSONObject("weekday").getString("ar"));
+                        int day = hijri.getInt("day")-1;
+                        String completeHijriDate = String.format("%s, %s %s, %s",
+                                hijri.getJSONObject("weekday").getString("en"),
+                                day + HijriDateProviders.getOrdinalSuffix(day),
+                                hijri.getJSONObject("month").getString("en"),
+                                hijri.getString("year"));
                         date_hijri.setText(completeHijriDate);
 
                         location_info.setText(getAddressFromLatLng(latitude, longitude));
@@ -258,7 +283,7 @@ public class MainActivity extends AppCompatActivity {
                                     new CaroselItem(
                                             datePair.getHijriDate(),
                                             convertTo12HourFormat(timings.getString("Fajr")),
-                                            convertTo12HourFormat(timings.getString("Isha"))
+                                            convertTo12HourFormat(timings.getString("Maghrib"))
                                     )
                             );
                         }
@@ -304,5 +329,44 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
             return time; // Return original time if formatting fails
         }
+    }
+
+    public String convertToDdMmYy(String dateString) {
+        // If null, return today's date
+        if (dateString == null) {
+            return OUTPUT_FORMAT.format(new Date());
+        }
+
+        // Remove any extra whitespace and normalize separators
+        String cleanedDate = dateString.trim()
+                .replaceAll("[\\s-/]", "-");
+
+        // Try each possible format until one works
+        for (String format : POSSIBLE_FORMATS) {
+            try {
+                SimpleDateFormat parser = new SimpleDateFormat(format, Locale.getDefault());
+                parser.setLenient(false); // Strict parsing
+                Date date = parser.parse(cleanedDate);
+                if (date != null) {
+                    return OUTPUT_FORMAT.format(date);
+                }
+            } catch (ParseException e) {
+                // Continue to next format if parsing fails
+                continue;
+            }
+        }
+
+        // Return null if no format matches
+        return null;
+    }
+
+    @Override
+    public void onInitializationComplete() {
+        Toast.makeText(getApplicationContext(), "Add Loaded", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onInitializationFailed(UnityAds.UnityAdsInitializationError error, String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }
